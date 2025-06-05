@@ -92,27 +92,38 @@
                         "example": "created_at or -created_at or created_at,-completed_at"
                     },
                     {
-                        "name": "filter",
+                        "name": "filter[status]",
                         "in": "query",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "status": {
-                                    "$ref": "#\/components\/schemas\/TaskStatusesEnum"
-                                },
-                                "priority": {
-                                    "type": "integer",
-                                    "minimum": 1,
-                                    "maximum": 5
-                                },
-                                "title": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                }
-                            }
-                        }
+                            "$ref": "#\/components\/schemas\/TaskStatusesEnum"
+                        },
+                        "example": "done"
+                    },
+                    {
+                        "name": "filter[priority]",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 5
+                        },
+                        "example": 3
+                    },
+                    {
+                        "name": "filter[title]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Task title"
+                    },
+                    {
+                        "name": "filter[description]",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Task description"
                     }
                 ],
                 "responses": {
