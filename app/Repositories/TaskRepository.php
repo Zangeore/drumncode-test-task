@@ -20,8 +20,8 @@ class TaskRepository
             ->allowedFilters([
                 AllowedFilter::custom('title', new FullTextSearchFilterWithRank()),
                 AllowedFilter::custom('description', new FullTextSearchFilterWithRank()),
-                'status',
-                'priority'
+                AllowedFilter::exact('status'),
+                AllowedFilter::exact('priority'),
             ])
             ->allowedSorts([
                 'priority',

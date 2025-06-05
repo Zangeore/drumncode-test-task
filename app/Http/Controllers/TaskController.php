@@ -11,6 +11,7 @@ use App\Http\Requests\Task\UpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TasksService;
+use Dedoc\Scramble\Attributes\QueryParameter;
 
 class TaskController extends Controller
 {
@@ -18,6 +19,7 @@ class TaskController extends Controller
     {
     }
 
+    #[QueryParameter('sort',  type: 'string', example: "created_at or -created_at or created_at,-completed_at")]
     public function index(IndexRequest $request)
     {
         return TaskResource::collection($this->service->indexForUser($request->user(), $request->hasFulltextSearch()));
