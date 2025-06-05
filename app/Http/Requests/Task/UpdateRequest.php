@@ -12,10 +12,10 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', Rule::enum(TaskStatusesEnum::class)],
-            'priority' => ['required', 'integer', 'min:1', 'max:5'],
-            'title' => ['required', 'string', 'min:1', 'max:255'],
-            'description' => ['required', 'string', 'min:1', 'max:65535'],
+            'status' => [Rule::enum(TaskStatusesEnum::class)],
+            'priority' => ['integer', 'min:1', 'max:5'],
+            'title' => ['string', 'min:1', 'max:255'],
+            'description' => ['string', 'min:1', 'max:65535'],
         ];
     }
 
