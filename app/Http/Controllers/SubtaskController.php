@@ -20,7 +20,7 @@ class SubtaskController extends Controller
 
 
 
-    public function store(StoreRequest $request, Task $task)
+    public function store(StoreRequest $request, Task $task): TaskResource
     {
         return new TaskResource($this->service->createSubtask($task, new TaskFormDTO(...$request->validated())));
     }

@@ -30,7 +30,7 @@ class TaskRepository
             ])->get();
     }
 
-    public function getChildrenHierarchyByIds(array $ids)
+    public function getChildrenHierarchyByIds(array $ids): array
     {
         $sql = '
 WITH RECURSIVE task_tree AS (
@@ -51,7 +51,7 @@ FROM task_tree;';
     }
 
 
-    public function getParentChain(array $ids)
+    public function getParentChain(array $ids): array
     {
         $sql = '
         WITH RECURSIVE parent_chain AS (
@@ -76,12 +76,12 @@ FROM parent_chain;';
         return Task::create($DTO->toArray());
     }
 
-    public function update(Task $task, TaskFormDTO $DTO)
+    public function update(Task $task, TaskFormDTO $DTO): Task|\Illuminate\Support\HigherOrderTapProxy
     {
         return tap($task, fn($model) => $model->update($DTO->toSafeArray()));
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): void
     {
         $task->delete();
     }

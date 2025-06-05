@@ -47,10 +47,10 @@ class SeedTasksCommand extends Command
                 'user_id' => $userId,
                 'parent_task_id' => null,
                 'status' => $statuses[array_rand($statuses)],
-                'priority' => rand(1, 5),
+                'priority' => random_int(1, 5),
                 'title' => $faker->sentence,
                 'description' => $faker->paragraph,
-                'created_at' => now()->subDays(rand(0, 30)),
+                'created_at' => now()->subDays(random_int(0, 30)),
                 'completed_at' => null,
             ]);
 
@@ -59,22 +59,22 @@ class SeedTasksCommand extends Command
             $progress->advance();
         }
 
-        while ($createdCount < $targetCount && !empty($parents)) {
+        while ($createdCount < $targetCount && $parents !== []) {
             $newParents = [];
 
             foreach ($parents as $parentId) {
-                $childrenCount = rand(0, 5);
+                $childrenCount = random_int(0, 5);
                 for ($i = 0; $i < $childrenCount && $createdCount < $targetCount; $i++) {
 
                     $task = Task::create([
                         'user_id' => $userId,
                         'parent_task_id' => $parentId,
                         'status' => $statuses[array_rand($statuses)],
-                        'priority' => rand(1, 5),
+                        'priority' => random_int(1, 5),
                         'title' => $faker->sentence,
                         'description' => $faker->paragraph,
-                        'created_at' => now()->subDays(rand(0, 30)),
-                        'completed_at' => rand(0, 1) ? now()->subDays(rand(1, 10)) : null,
+                        'created_at' => now()->subDays(random_int(0, 30)),
+                        'completed_at' => random_int(0, 1) !== 0 ? now()->subDays(random_int(1, 10)) : null,
                     ]);
 
                     $newParents[] = $task->id;

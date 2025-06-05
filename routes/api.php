@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'middleware' => 'auth:sanctum'
-], function () {
+], function (): void {
     Route::apiResource('tasks', TaskController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::post('tasks/{task}/mark-completed', [TaskController::class, 'markCompleted']);
     Route::apiResource('tasks.subtasks', SubtaskController::class)

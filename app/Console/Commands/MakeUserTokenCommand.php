@@ -15,6 +15,6 @@ class MakeUserTokenCommand extends Command
     {
         $user = User::findOrFail($this->argument('userId'));
         $token = $user->createToken('User Token')->plainTextToken;
-        $this->info("User token created successfully: {$token}");
+        $this->info('User token created successfully: ' . $token);
     }
 }

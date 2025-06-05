@@ -10,11 +10,11 @@ class FullTextSearchFilterWithRank implements Filter
 {
     public function __invoke(Builder $query, $value, string $property): void
     {
-        $value = trim($value);
+        $value = trim((string) $value);
         $connection = DB::connection();
         $grammar = $connection->getQueryGrammar();
-        $searchVector = "to_tsvector('english', $property)";
+        $searchVector = sprintf("to_tsvector('english', %s)", $property);
         $searchQuery = $grammar->substituteBindingsIntoRawSql("plainto_tsquery('english', ?)", $connection->prepareBindings([$value]));
-        $query->orderByRaw("ts_rank({$searchVector}, {$searchQuery}) desc")->limit(10);
+        $query->orderByRaw(sprintf('ts_rank(%s, %s) desc', $searchVector, $searchQuery))->limit(10);
     }
 }

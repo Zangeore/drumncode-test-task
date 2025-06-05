@@ -13,7 +13,7 @@ trait EnumUtils
 
     public static function names(): array
     {
-        return array_map(static fn (UnitEnum $value) => $value->name, static::cases());
+        return array_map(static fn (UnitEnum $value): string => $value->name, static::cases());
     }
 
 

@@ -7,6 +7,7 @@ use App\Enums\TaskStatusesEnum;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepository;
+use Illuminate\Database\Eloquent\Model;
 
 class TasksService
 {
@@ -14,12 +15,13 @@ class TasksService
     {
     }
 
-    public function indexForUser(User $user, bool $hasFulltextSearch)
+    public function indexForUser(User $user, bool $hasFulltextSearch): array
     {
         $tasks = $this->repository->indexForUser($user)->toArray();
         if ($hasFulltextSearch) {
             return $this->fulltextIndexFormat($tasks);
         }
+
         return $this->buildTree($tasks);
 
     }
@@ -30,6 +32,7 @@ class TasksService
         $children = $this->repository->getChildrenHierarchyByIds($ids);
         $tasks = array_merge($tasks, $children);
         $tasks = $this->buildTree($tasks);
+
         $parents = $this->repository->getParentChain($ids);
         return $this->attachParentChains($tasks, $parents);
     }
@@ -57,7 +60,7 @@ class TasksService
         return $tasks;
     }
 
-    protected function buildTree(array $tasks)
+    protected function buildTree(array $tasks): array
     {
         $map = [];
         $tree = [];
@@ -82,7 +85,7 @@ class TasksService
     }
 
 
-    public function createForUser(User $user, TaskFormDTO $DTO)
+    public function createForUser(User $user, TaskFormDTO $DTO): Model
     {
         $DTO->user_id = $user->id;
         return $this->repository->create($DTO);
@@ -93,19 +96,19 @@ class TasksService
         return $this->repository->update($task, $DTO);
     }
 
-    public function destroy(Task $task)
+    public function destroy(Task $task): void
     {
         $this->repository->destroy($task);
     }
 
-    public function markCompleted(Task $task)
+    public function markCompleted(Task $task): void
     {
         if (!$task->isCompleted()) {
-            $this->repository->update($task, new TaskFormDTO(completed_at: now()->toDateTimeString(), status: TaskStatusesEnum::DONE->value));
+            $this->repository->update($task, new TaskFormDTO(status: TaskStatusesEnum::DONE->value, completed_at: now()->toDateTimeString()));
         }
     }
 
-    public function createSubtask(Task $task, TaskFormDTO $DTO)
+    public function createSubtask(Task $task, TaskFormDTO $DTO): Model
     {
         $DTO->user_id = $task->user_id;
         $DTO->parent_task_id = $task->id;

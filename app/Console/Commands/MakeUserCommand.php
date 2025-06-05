@@ -35,6 +35,6 @@ class MakeUserCommand extends Command
                 required: true,
             )
         ]);
-        $this->info("User created successfully: {$user->name} ({$user->email}) with ID {$user->id}");
+        $this->info(sprintf('User created successfully: %s (%s) with ID %s', $user->name, $user->email, $user->id));
     }
 }

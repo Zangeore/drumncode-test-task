@@ -13,8 +13,6 @@ abstract class AbstractDTO implements Arrayable
 
     public function toSafeArray()
     {
-        return array_filter($this->toArray(), function ($value) {
-            return !is_null($value);
-        });
+        return array_filter($this->toArray(), fn($value): bool => !is_null($value));
     }
 }

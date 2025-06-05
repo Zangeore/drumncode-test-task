@@ -20,8 +20,8 @@ class TaskResource extends JsonResource
             'description' => $this->description,
             'created_at' => $this->created_at,
             'completed_at' => $this->completed_at,
-            'children' => isset($this->children) ? TaskResource::collection($this->children) : null,
-            'parent' => isset($this->parent) ? new TaskResource($this->parent) : null,
+            'children' => property_exists($this, 'children') && $this->children !== null ? self::collection($this->children) : null,
+            'parent' => property_exists($this, 'parent') && $this->parent !== null ? new TaskResource($this->parent) : null,
         ];
     }
 }
